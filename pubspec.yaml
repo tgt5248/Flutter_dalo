@@ -38,6 +38,10 @@ dependencies:
   table_calendar: ^3.0.7
   intl: ^0.17.0
   geolocator: ^9.0.1
+  background_locator_2: ^2.0.5
+  sqflite: ^2.1.0
+  path: ^1.8.2
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:

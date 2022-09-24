@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart'; //local 설정
 import 'package:dalo/screens/loading.dart';
-import 'package:dalo/screens/calendar.dart';
 import 'package:dalo/screens/calendar2.dart';
 
 void main() {
-  initializeDateFormatting().then((_) => runApp(MyApp()));
+  initializeDateFormatting().then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Calendar2(),
+      home: const Calendar(),
       // home: Loading(),
       // home: const Calendar2(),
     );

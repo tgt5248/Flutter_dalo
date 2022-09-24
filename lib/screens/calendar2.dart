@@ -4,10 +4,10 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart'; //local 설정
 import 'dart:collection';
 
-class Calendar2 extends StatefulWidget {
-  const Calendar2({Key? key}) : super(key: key);
+class Calendar extends StatefulWidget {
+  const Calendar({Key? key}) : super(key: key);
   @override
-  _Calendar2State createState() => _Calendar2State();
+  _CalendarState createState() => _CalendarState();
 }
 
 class Event {
@@ -21,9 +21,9 @@ class Event {
 //이벤트는 Map 객체로
 Map<DateTime, dynamic> eventSource = {
   DateTime.utc(2022, 9, 13): [Event('우리집', '10:00'), Event('학교', '17:00')],
-  DateTime.utc(2022, 9, 20): [Event('집', '19:00')],
   DateTime.utc(2022, 9, 21): [Event('집', '12:00')],
   DateTime.utc(2022, 9, 22): [Event('집', '17:00')],
+  DateTime.utc(2022, 9, 24): [Event('집', '19:00')],
   DateTime.utc(2022, 09, 28): [Event('집', '29:00')]
 };
 //LinkedHashMap 객체로 변환
@@ -31,7 +31,7 @@ final events = LinkedHashMap(
   equals: isSameDay,
 )..addAll(eventSource);
 
-class _Calendar2State extends State<Calendar2> {
+class _CalendarState extends State<Calendar> {
   List<Event> _getEventsForDay(DateTime day) {
     return events[day] ?? [];
   }
