@@ -4,6 +4,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart'; //local 설정
 import 'dart:collection';
 
+import 'package:dalo/db/db_helper.dart';
+import 'package:dalo/db/db_model.dart';
+
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
   @override
@@ -17,6 +20,14 @@ class Event {
   @override
   String toString() => '$time  $location';
 }
+
+// Map<DateTime, List<Event>> _calEventSource = {}; 이런식으로?
+// void _toCalenderEvents() {
+//   for (var s in _schedules) {
+//     List<Event> events = [Event("${s.type} - ${s.location}")];
+//     _calEventSource[s.dateTime!] = events;
+//   }
+// }
 
 //이벤트는 Map 객체로
 Map<DateTime, dynamic> eventSource = {

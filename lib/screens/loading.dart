@@ -37,12 +37,24 @@ class _LoadingState extends State<Loading> {
   //   print(position);
   // }
   void getLocation() async {
-    DBHeler().createData(Data(id: 323, date: 'date', time: 'time', loc: 'loc'));
-    // print(DBHeler().getAllDatas());
-    // var s=  DBHeler().getData(3);
-    // Text(DBHeler().getData(3) as String);
+    // DBHeler().deleteAllDatas();
+    // DBHeler().createData(
+    //     Data(id: 1, date: '2022-09-10', time: '16:00', loc: '우리 집'));
+    // DBHeler()
+    //     .createData(Data(id: 2, date: '2022-09-13', time: '12:00', loc: '학교'));
+    // DBHeler()
+    //     .createData(Data(id: 3, date: '2022-09-20', time: '20:00', loc: '공원'));
+    // DBHeler()
+    //     .createData(Data(id: 4, date: '2022-09-24', time: '11:00', loc: '마트'));
+    // DBHeler()
+    //     .createData(Data(id: 5, date: '2022-09-28', time: '10:00', loc: '직장'));
+    // DBHeler().createData(
+    //     Data(id: 6, date: '2022-09-28', time: '16:00', loc: '우리 집'));
+
     var list = await DBHeler().getAllDatas();
-    debugPrint(list.toString()); //데이터 print하기
+    for (var item in list) {
+      print('${item.id} ${item.date} ${item.time} ${item.loc}');
+    }
   }
 
   Future<void> _startLocator() async {

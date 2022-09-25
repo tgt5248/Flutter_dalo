@@ -44,31 +44,29 @@ class DBHeler {
   //Read
   getData(int id) async {
     final db = await database;
-    var res = await db.rawQuery('SELECT * FROM $TableName WHERE id = ?', [id]);
-    return res.isNotEmpty
-        ? Data(
-            id: res.first['id'] as int,
-            date: res.first['date'] as String,
-            time: res.first['time'] as String,
-            loc: res.first['loc'] as String)
-        : Null;
+    final List<Map<String, dynamic>> maps =
+        await db.rawQuery('SELECT * FROM $TableName WHERE id = ?', [id]);
+    return List.generate(maps.length, (index) {
+      return Data(
+          id: maps[index]['id'] as int,
+          date: maps[index]['date'] as String,
+          time: maps[index]['time'] as String,
+          loc: maps[index]['loc'] as String);
+    });
   }
 
   //Read All
   Future<List<Data>> getAllDatas() async {
     final db = await database;
-    var res = await db.rawQuery('SELECT * FROM $TableName');
-    List<Data> list = res.isNotEmpty
-        ? res
-            .map((c) => Data(
-                id: res.first['id'] as int,
-                date: c['date'] as String,
-                time: c['time'] as String,
-                loc: c['loc'] as String))
-            .toList()
-        : [];
+    final List<Map<String, dynamic>> maps = await db.query('$TableName');
 
-    return list;
+    return List.generate(maps.length, (index) {
+      return Data(
+          id: maps[index]['id'] as int,
+          date: maps[index]['date'] as String,
+          time: maps[index]['time'] as String,
+          loc: maps[index]['loc'] as String);
+    });
   }
 
   //Delete
