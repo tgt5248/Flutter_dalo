@@ -55,18 +55,31 @@ class DBHeler {
     });
   }
 
+  Future<Map<DateTime, dynamic>> getAll() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('$TableName');
+    Map<DateTime, dynamic> c = Map();
+    for (var i in maps) {
+      DateTime a = DateTime.parse(i['date'] + ' 00:00:00.000Z');
+      List b = [i['time'] + ' ' + i['loc']];
+      c[a] = b;
+      // print(c);
+    }
+    return c;
+  }
+
   //Read All
   Future<List<Data>> getAllDatas() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('$TableName');
-
-    return List.generate(maps.length, (index) {
+    List<Data> list = List.generate(maps.length, (index) {
       return Data(
           id: maps[index]['id'] as int,
           date: maps[index]['date'] as String,
           time: maps[index]['time'] as String,
           loc: maps[index]['loc'] as String);
     });
+    return list;
   }
 
   //Delete

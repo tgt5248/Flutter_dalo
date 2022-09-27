@@ -10,5 +10,14 @@ class Data {
     required this.time,
     required this.loc,
   });
-  //required : 값 필수
+  // required : 값 필수
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'date': date,
+      'time': time,
+      'loc': loc,
+    };
+  }
 }

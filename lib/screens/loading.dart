@@ -47,9 +47,11 @@ class _LoadingState extends State<Loading> {
     // DBHeler()
     //     .createData(Data(id: 4, date: '2022-09-24', time: '11:00', loc: '마트'));
     // DBHeler()
-    //     .createData(Data(id: 5, date: '2022-09-28', time: '10:00', loc: '직장'));
+    //     .createData(Data(id: 5, date: '2022-09-27', time: '10:00', loc: '직장'));
+    // DBHeler()
+    //     .createData(Data(id: 6, date: '2022-09-27', time: '12:00', loc: '학원'));
     // DBHeler().createData(
-    //     Data(id: 6, date: '2022-09-28', time: '16:00', loc: '우리 집'));
+    //     Data(id: 7, date: '2022-09-28', time: '16:00', loc: '우리 집'));
 
     var list = await DBHeler().getAllDatas();
     for (var item in list) {

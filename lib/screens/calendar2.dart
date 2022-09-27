@@ -14,114 +14,136 @@ class Calendar extends StatefulWidget {
 }
 
 class Event {
-  String location;
+  String date;
   String time;
-  Event(this.location, this.time);
+  String loc;
+  Event(this.date, this.time, this.loc);
   @override
-  String toString() => '$time  $location';
+  String toString() => ' $date $time $loc';
 }
 
-// Map<DateTime, List<Event>> _calEventSource = {}; 이런식으로?
-// void _toCalenderEvents() {
-//   for (var s in _schedules) {
-//     List<Event> events = [Event("${s.type} - ${s.location}")];
-//     _calEventSource[s.dateTime!] = events;
-//   }
-// }
-
-//이벤트는 Map 객체로
-Map<DateTime, dynamic> eventSource = {
-  DateTime.utc(2022, 9, 13): [Event('우리집', '10:00'), Event('학교', '17:00')],
-  DateTime.utc(2022, 9, 21): [Event('집', '12:00')],
-  DateTime.utc(2022, 9, 22): [Event('집', '17:00')],
-  DateTime.utc(2022, 9, 24): [Event('집', '19:00')],
-  DateTime.utc(2022, 09, 28): [Event('집', '29:00')]
-};
-//LinkedHashMap 객체로 변환
-final events = LinkedHashMap(
-  equals: isSameDay,
-)..addAll(eventSource);
-
 class _CalendarState extends State<Calendar> {
-  List<Event> _getEventsForDay(DateTime day) {
-    return events[day] ?? [];
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay = DateTime.now();
+
+  Map<DateTime, dynamic> _eventsList = {};
+  late Future<Map<DateTime, dynamic>> _future;
+
+  Future<Map<DateTime, dynamic>> getCalenderContents() async {
+    _eventsList.addAll(await DBHeler().getAll());
+    return _eventsList;
   }
 
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
-  //당일 이벤트도 표시되게 설정 (시간 바꾸는거 꼼수)
-  List _selectedEvents = events[DateTime.parse(
-      DateFormat('yyyy-MM-dd').format(DateTime.now()) + ' 00:00:00.000Z')];
+  @override
+  void initState() {
+    super.initState();
+    _selectedDay = _focusedDay;
+    _future = getCalenderContents();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('DaLo - TableCalendar'),
         ),
-        body: Column(children: [
-          TableCalendar(
-            locale: 'ko-KR',
-            firstDay: DateTime.utc(2022, 09, 01), //처음 보여줄 날짜
-            lastDay: DateTime.utc(2030, 12, 31), //맨 마지막
-            focusedDay: _focusedDay, // 첫 빌드시 보여지는 날
-            eventLoader: _getEventsForDay, //이벤트 마커 표시
+        body: SingleChildScrollView(
+            child: FutureBuilder(
+                future: _future,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  final _events = LinkedHashMap<DateTime, dynamic>(
+                    equals: isSameDay,
+                  )..addAll(_eventsList);
 
-            //날짜 선택하기
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
+                  List<dynamic> _getEventForDay(DateTime day) {
+                    return _events[day] ?? [];
+                  }
 
-            onDaySelected: (selectedDay, focusedDay) {
-              if (!isSameDay(_selectedDay, selectedDay)) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                  _selectedEvents = events[_selectedDay] ?? [];
-                });
-              }
-            },
-            // onPageChanged: (focusedDay) {
-            //   // No need to call `setState()` here
-            //   _focusedDay = focusedDay;
-            // },
+                  // 당일 이벤트가 안됨 수정해야됨
+                  List _selectedEvents = _events[_selectedDay] ?? [];
 
-            headerStyle: const HeaderStyle(
-                titleCentered: true,
-                formatButtonVisible: false,
-                titleTextStyle: TextStyle(fontSize: 17.0, color: Colors.black)),
-            calendarStyle: const CalendarStyle(
-              markerDecoration: //이벤트마커
-                  BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
-              markerSize: 5,
-              todayDecoration: //오늘 표시
-                  BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
-              defaultTextStyle: TextStyle(
-                //평일날짜 색상
-                color: Colors.black,
-              ),
-              weekendTextStyle: TextStyle(color: Colors.black), //주말날짜 색상
-            ),
-            daysOfWeekStyle: const DaysOfWeekStyle(
-              weekdayStyle: TextStyle(color: Colors.black), //월~금색상
-              weekendStyle: TextStyle(color: Colors.black), //토일 색상
-            ),
-          ),
-          ListView(
-            shrinkWrap: true,
-            children: _selectedEvents
-                .map((event) => Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 0.8),
-                        borderRadius: BorderRadius.circular(12.0),
+                  return Column(
+                    children: [
+                      TableCalendar(
+                        locale: 'ko-KR',
+                        firstDay: DateTime.utc(2022, 09, 01), //처음 보여줄 날짜
+                        lastDay: DateTime.utc(2030, 12, 31), //맨 마지막
+                        focusedDay: _focusedDay, // 첫 빌드시 보여지는 날
+                        eventLoader: _getEventForDay, //이벤트 마커 표시
+
+                        //날짜 선택하기
+                        selectedDayPredicate: (day) {
+                          return isSameDay(_selectedDay, day);
+                        },
+
+                        onDaySelected: (selectedDay, focusedDay) {
+                          if (!isSameDay(_selectedDay, selectedDay)) {
+                            setState(() {
+                              _selectedDay = selectedDay;
+                              _focusedDay = focusedDay;
+                            });
+                          }
+                          List _selectedEvents = _events[_selectedDay] ?? [];
+
+                          print(_selectedEvents);
+                        },
+                        headerStyle: const HeaderStyle(
+                            titleCentered: true,
+                            formatButtonVisible: false,
+                            titleTextStyle:
+                                TextStyle(fontSize: 17.0, color: Colors.black)),
+                        calendarStyle: const CalendarStyle(
+                          markerDecoration: //이벤트마커
+                              BoxDecoration(
+                                  color: Colors.blue, shape: BoxShape.circle),
+                          markerSize: 5,
+                          todayDecoration: //오늘 표시
+                              BoxDecoration(
+                                  color: Colors.blue, shape: BoxShape.circle),
+                          defaultTextStyle: TextStyle(
+                            //평일날짜 색상
+                            color: Colors.black,
+                          ),
+                          weekendTextStyle:
+                              TextStyle(color: Colors.black), //주말날짜 색상
+                        ),
+                        daysOfWeekStyle: const DaysOfWeekStyle(
+                          weekdayStyle: TextStyle(color: Colors.black), //월~금색상
+                          weekendStyle: TextStyle(color: Colors.black), //토일 색상
+                        ),
                       ),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 4.0),
-                      child: ListTile(
-                        title: Text(event.toString()),
+                      ListView.separated(
+                        // scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.all(8),
+                        itemCount: _selectedEvents.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            height: 50,
+                            child: Text(_selectedEvents[index]),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
                       ),
-                    ))
-                .toList(),
-          )
-        ]));
+                      ListView(
+                        shrinkWrap: true,
+                        children: _selectedEvents
+                            .map((event) => Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 0.8),
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 4.0),
+                                  child: ListTile(
+                                    title: Text(event.toString()),
+                                  ),
+                                ))
+                            .toList(),
+                      )
+                    ],
+                  );
+                })));
   }
 }
