@@ -31,6 +31,7 @@ class LocationServiceRepository {
 
   static Future<void> setLogPosition(LocationDto data) async {
     final date = DateTime.now();
-    // await Loading().save(data.loc);
+    await LoadingState().save(data.latitude, data.longitude);
+    print('setLogPosition 실행');
   }
 }

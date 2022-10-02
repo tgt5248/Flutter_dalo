@@ -27,8 +27,8 @@ class DBHeler {
     String path = join(documentsDirectory.path, 'MyData.db');
 
     return await openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute(
-          "CREATE TABLE $TableName(id INTEGER PRIMARY KEY AUTOINCREMENT,date TEXT, time TEXT ,loc TEXT)");
+      await db
+          .execute("CREATE TABLE $TableName(date TEXT, time TEXT ,loc TEXT)");
     }, onUpgrade: (db, oldVersion, newVersion) {});
   }
 
@@ -36,34 +36,39 @@ class DBHeler {
   createData(Data data) async {
     final db = await database;
     var res = await db.rawInsert(
-        'INSERT INTO $TableName(id,date,time,loc) VALUES(?,?,?,?)',
-        [data.id, data.date, data.time, data.loc]);
+        'INSERT INTO $TableName(date,time,loc) VALUES(?,?,?)',
+        [data.date, data.time, data.loc]);
     return res;
   }
 
   //Read
-  getData(int id) async {
+  getData(String date, String time) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps =
-        await db.rawQuery('SELECT * FROM $TableName WHERE id = ?', [id]);
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+        'SELECT * FROM $TableName WHERE date = ? and time =?', [date, time]);
     return List.generate(maps.length, (index) {
       return Data(
-          id: maps[index]['id'] as int,
           date: maps[index]['date'] as String,
           time: maps[index]['time'] as String,
           loc: maps[index]['loc'] as String);
     });
   }
 
+  //Read All for use
   Future<Map<DateTime, dynamic>> getAll() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('$TableName');
     Map<DateTime, dynamic> c = Map();
     for (var i in maps) {
       DateTime a = DateTime.parse(i['date'] + ' 00:00:00.000Z');
-      List b = [i['time'] + ' ' + i['loc']];
+      List b;
+      // 하루에 여러개 이벤트있을경우
+      if (c[a] == null) {
+        b = [i['time'] + ' ' + i['loc']];
+      } else {
+        b = c[a] + [i['time'] + ' ' + i['loc']];
+      }
       c[a] = b;
-      // print(c);
     }
     return c;
   }
@@ -74,7 +79,6 @@ class DBHeler {
     final List<Map<String, dynamic>> maps = await db.query('$TableName');
     List<Data> list = List.generate(maps.length, (index) {
       return Data(
-          id: maps[index]['id'] as int,
           date: maps[index]['date'] as String,
           time: maps[index]['time'] as String,
           loc: maps[index]['loc'] as String);
@@ -83,9 +87,10 @@ class DBHeler {
   }
 
   //Delete
-  deleteData(int id) async {
+  deleteData(String date, String time) async {
     final db = await database;
-    var res = db.rawDelete('DELETE FROM $TableName WHERE id = ?', [id]);
+    var res = db.rawDelete(
+        'DELETE FROM $TableName WHERE date = ? and time = ?', [date, time]);
     return res;
   }
 

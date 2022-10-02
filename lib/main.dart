@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Calendar(),
-      // home: Loading(),
+      // home: const Calendar(),
+      home: Loading(),
     );
   }
 }

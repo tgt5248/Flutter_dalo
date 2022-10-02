@@ -24,7 +24,7 @@ class Event {
 
 class _CalendarState extends State<Calendar> {
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay = DateTime.now();
+  DateTime _selectedDay = DateTime.now();
 
   Map<DateTime, dynamic> _eventsList = {};
   late Future<Map<DateTime, dynamic>> _future;
@@ -37,7 +37,7 @@ class _CalendarState extends State<Calendar> {
   @override
   void initState() {
     super.initState();
-    _selectedDay = _focusedDay;
+    // _selectedDay = _focusedDay;
     _future = getCalenderContents();
   }
 
@@ -59,7 +59,7 @@ class _CalendarState extends State<Calendar> {
                     return _events[day] ?? [];
                   }
 
-                  // 당일 이벤트가 안됨 수정해야됨
+                  // 당일 이벤트가 안보임 수정해야됨
                   List _selectedEvents = _events[_selectedDay] ?? [];
 
                   return Column(
@@ -70,7 +70,6 @@ class _CalendarState extends State<Calendar> {
                         lastDay: DateTime.utc(2030, 12, 31), //맨 마지막
                         focusedDay: _focusedDay, // 첫 빌드시 보여지는 날
                         eventLoader: _getEventForDay, //이벤트 마커 표시
-
                         //날짜 선택하기
                         selectedDayPredicate: (day) {
                           return isSameDay(_selectedDay, day);
@@ -81,11 +80,9 @@ class _CalendarState extends State<Calendar> {
                             setState(() {
                               _selectedDay = selectedDay;
                               _focusedDay = focusedDay;
+                              _selectedEvents = _events[_selectedDay] ?? [];
                             });
                           }
-                          List _selectedEvents = _events[_selectedDay] ?? [];
-
-                          print(_selectedEvents);
                         },
                         headerStyle: const HeaderStyle(
                             titleCentered: true,
@@ -112,20 +109,20 @@ class _CalendarState extends State<Calendar> {
                           weekendStyle: TextStyle(color: Colors.black), //토일 색상
                         ),
                       ),
-                      ListView.separated(
-                        // scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(8),
-                        itemCount: _selectedEvents.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            height: 50,
-                            child: Text(_selectedEvents[index]),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const Divider(),
-                      ),
+                      // ListView.separated(
+                      //   // scrollDirection: Axis.vertical,
+                      //   shrinkWrap: true,
+                      //   padding: const EdgeInsets.all(8),
+                      //   itemCount: _selectedEvents.length,
+                      //   itemBuilder: (BuildContext context, int index) {
+                      //     return Container(
+                      //       height: 50,
+                      //       child: Text(_selectedEvents[index]),
+                      //     );
+                      //   },
+                      //   separatorBuilder: (BuildContext context, int index) =>
+                      //       const Divider(),
+                      // ),
                       ListView(
                         shrinkWrap: true,
                         children: _selectedEvents
