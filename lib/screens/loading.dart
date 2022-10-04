@@ -53,6 +53,7 @@ class LoadingState extends State<Loading> {
     }).catchError((e) {
       print(e);
     });
+    return currentPosition;
   }
 
   void changeDB() async {

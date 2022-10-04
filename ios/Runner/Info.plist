@@ -57,5 +57,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NMFClientId</key>
+	<string>g1yovx6cpm</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>NSAllowsArbitraryLoads</key>
+	<true/>
+	<key>KAKAO_APP_KEY</key>
+	<string>e3eac7706e37994a98cfd0f4ab45c42b</string>
 </dict>
 </plist>
