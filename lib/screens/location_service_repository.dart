@@ -29,9 +29,9 @@ class LocationServiceRepository {
     print('callback ok');
   }
 
-  static Future<void> setLogPosition(LocationDto data) async {
+  static Future<void> setLogPosition(dynamic store) async {
     final date = DateTime.now();
-    await LoadingState().save(data.latitude, data.longitude);
+    await LoadingState().save(store);
     print('setLogPosition 실행');
   }
 }

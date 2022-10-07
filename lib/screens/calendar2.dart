@@ -1,3 +1,4 @@
+import 'package:dalo/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -6,6 +7,7 @@ import 'dart:collection';
 
 import 'package:dalo/db/db_helper.dart';
 import 'package:dalo/db/db_model.dart';
+import 'package:dalo/screens/changeLoc.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
@@ -30,7 +32,7 @@ class _CalendarState extends State<Calendar> {
   late Future<Map<DateTime, dynamic>> _future;
 
   Future<Map<DateTime, dynamic>> getCalenderContents() async {
-    _eventsList.addAll(await DBHeler().getAll());
+    _eventsList.addAll(await DBHelper().getAll());
     return _eventsList;
   }
 
@@ -46,6 +48,12 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('DaLo - TableCalendar'),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Loading())); //뒤로가기
+              },
+              icon: Icon(Icons.arrow_back)),
         ),
         body: SingleChildScrollView(
             child: FutureBuilder(
@@ -61,7 +69,6 @@ class _CalendarState extends State<Calendar> {
 
                   // 당일 이벤트가 안보임 수정해야됨
                   List _selectedEvents = _events[_selectedDay] ?? [];
-
                   return Column(
                     children: [
                       TableCalendar(
@@ -134,7 +141,16 @@ class _CalendarState extends State<Calendar> {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 8.0, vertical: 4.0),
                                   child: ListTile(
-                                    title: Text(event.toString()),
+                                    title: Text('${event[0]} ${event[1][0]}'),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => ChangeLoc(
+                                                  date: DateFormat('yyyy-MM-dd')
+                                                      .format(_selectedDay),
+                                                  time: event[0])));
+                                    },
                                   ),
                                 ))
                             .toList(),

@@ -1,6 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:/Users/sohyeonsu/kwu/4&#x1112;&#x1161;&#x11a8;&#x1102;&#x1167;&#x11ab;/Flutter/dalo/ios/DaumMap.embeddedframework"
+      name = "DaumMap.embeddedframework">
+      <Group
+         location = "group:Resources"
+         name = "Resources">
+         <FileRef
+            location = "group:map_pinup_custom@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_custom.png">
+         </FileRef>
+         <FileRef
+            location = "group:shadow_balloon.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pinup.png">
+         </FileRef>
+         <FileRef
+            location = "group:detail_button.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_custom@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pinup@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_shadow@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:copyright.png">
+         </FileRef>
+         <FileRef
+            location = "group:th_line.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_red@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:daum_copyright.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_present_tracking.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_red.png">
+         </FileRef>
+         <FileRef
+            location = "group:Headers">
+         </FileRef>
+         <FileRef
+            location = "group:info_box.png">
+         </FileRef>
+         <FileRef
+            location = "group:point_sprite.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pinup_custom.png">
+         </FileRef>
+         <FileRef
+            location = "group:info_box_tail.png">
+         </FileRef>
+         <FileRef
+            location = "group:noimage256.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_present_direction.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_present.png">
+         </FileRef>
+         <FileRef
+            location = "group:noimage.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_present_background_update.png">
+         </FileRef>
+         <FileRef
+            location = "group:daum_th_line.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_shadow.png">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:DaumMap.framework"
+         name = "DaumMap.framework">
+         <FileRef
+            location = "group:map_pinup_custom@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_custom.png">
+         </FileRef>
+         <FileRef
+            location = "group:shadow_balloon.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pinup.png">
+         </FileRef>
+         <FileRef
+            location = "group:detail_button.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_custom@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pinup@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_shadow@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:copyright.png">
+         </FileRef>
+         <FileRef
+            location = "group:th_line.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_red@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:DaumMap">
+         </FileRef>
+         <FileRef
+            location = "group:daum_copyright.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin@3x.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_present_tracking.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_red.png">
+         </FileRef>
+         <Group
+            location = "group:Headers"
+            name = "Headers">
+            <FileRef
+               location = "group:MTMapPOIItem.h">
+            </FileRef>
+            <FileRef
+               location = "group:MTMapCameraUpdate.h">
+            </FileRef>
+            <FileRef
+               location = "group:MTMapReverseGeoCoder.h">
+            </FileRef>
+            <FileRef
+               location = "group:MTMapPolyline.h">
+            </FileRef>
+            <FileRef
+               location = "group:MTMapLocationMarkerItem.h">
+            </FileRef>
+            <FileRef
+               location = "group:MTMapView.h">
+            </FileRef>
+            <FileRef
+               location = "group:MTMapGeometry.h">
+            </FileRef>
+            <FileRef
+               location = "group:MTMapCircle.h">
+            </FileRef>
+         </Group>
+         <FileRef
+            location = "group:info_box.png">
+         </FileRef>
+         <FileRef
+            location = "group:point_sprite.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pinup_custom.png">
+         </FileRef>
+         <FileRef
+            location = "group:info_box_tail.png">
+         </FileRef>
+         <FileRef
+            location = "group:noimage256.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_present_direction.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_present.png">
+         </FileRef>
+         <FileRef
+            location = "group:noimage.png">
+         </FileRef>
+         <FileRef
+            location = "group:map_present_background_update.png">
+         </FileRef>
+         <FileRef
+            location = "group:daum_th_line.png">
+         </FileRef>
+         <FileRef
+            location = "group:Info.plist">
+         </FileRef>
+         <FileRef
+            location = "group:map_pin_shadow.png">
+         </FileRef>
+      </Group>
+   </Group>
    <FileRef
       location = "group:Runner.xcodeproj">
    </FileRef>

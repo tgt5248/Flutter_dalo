@@ -9,10 +9,10 @@ import 'package:dalo/db/db_model.dart';
 
 final String TableName = 'Data';
 
-class DBHeler {
-  DBHeler._();
-  static final DBHeler _db = DBHeler._();
-  factory DBHeler() => _db;
+class DBHelper {
+  DBHelper._();
+  static final DBHelper _db = DBHelper._();
+  factory DBHelper() => _db;
 
   static Database? _database;
 
@@ -38,42 +38,50 @@ class DBHeler {
     var res = await db.rawInsert(
         'INSERT INTO $TableName(date,time,loc) VALUES(?,?,?)',
         [data.date, data.time, data.loc]);
+
     return res;
   }
 
   //Read
-  getData(String date, String time) async {
+  Future<List<Data>> getData(String date, String time) async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.rawQuery(
         'SELECT * FROM $TableName WHERE date = ? and time =?', [date, time]);
-    return List.generate(maps.length, (index) {
+    List<Data> list = List.generate(maps.length, (index) {
       return Data(
           date: maps[index]['date'] as String,
           time: maps[index]['time'] as String,
           loc: maps[index]['loc'] as String);
     });
+    return list;
   }
 
   //Read All for use
   Future<Map<DateTime, dynamic>> getAll() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('$TableName');
+    final List<Map<String, dynamic>> maps = await db.query(TableName);
     Map<DateTime, dynamic> c = Map();
     for (var i in maps) {
       DateTime a = DateTime.parse(i['date'] + ' 00:00:00.000Z');
       List b;
+      List<String> listLoc = i['loc'].split(',');
       // 하루에 여러개 이벤트있을경우
       if (c[a] == null) {
-        b = [i['time'] + ' ' + i['loc']];
+        b = [
+          [i['time'], listLoc]
+        ];
       } else {
-        b = c[a] + [i['time'] + ' ' + i['loc']];
+        b = c[a] +
+            [
+              [i['time'], listLoc]
+            ];
       }
       c[a] = b;
     }
     return c;
   }
 
-  //Read All
+  //Read All for check
   Future<List<Data>> getAllDatas() async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('$TableName');
@@ -98,5 +106,13 @@ class DBHeler {
   deleteAllDatas() async {
     final db = await database;
     db.rawDelete('DELETE FROM $TableName');
+  }
+
+  updateData(String date, String time, String loc) async {
+    final db = await database;
+    var res = db.rawDelete(
+        'UPDATE $TableName SET loc = ? WHERE date = ? and time =?',
+        [loc, date, time]);
+    return res;
   }
 }
